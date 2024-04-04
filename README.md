@@ -1,7 +1,10 @@
 # To run it:
 npm ci
+
 (1st console) npm start
+
 (2nd console) npm run storybook
+
 
 
 # React + TypeScript + Vite
