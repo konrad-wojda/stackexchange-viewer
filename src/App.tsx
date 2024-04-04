@@ -1,35 +1,28 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import CssBaseline from "@mui/material/CssBaseline";
+import ThemeProvider from "@mui/material/styles/ThemeProvider";
 
-function App() {
-  const [count, setCount] = useState(0)
+import "./App.css";
+import { themeLight } from "./themes/theme-light";
+import { themeDark } from "./themes/theme-dark";
+import { useThemeStore } from "./store/theme.store";
+import { useErrorStore } from "./store/error.store";
+import { TopbarComponent } from "./components/topbar/topbar.component";
+import { DataViewComponent } from "./components/data-view/data-view.component";
+import { ServiceErrorComponent } from "./components/service-error/service-error";
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+const App = () => {
+    const lightMode = useThemeStore((state) => state.lightMode);
+    const showError = useErrorStore((state) => state.isServiceError);
 
-export default App
+    if (showError) return <ServiceErrorComponent />;
+
+    return (
+        <ThemeProvider theme={lightMode ? themeLight : themeDark}>
+            <CssBaseline />
+            <TopbarComponent />
+            <DataViewComponent />
+        </ThemeProvider>
+    );
+};
+
+export default App;
